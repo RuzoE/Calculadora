@@ -5,51 +5,49 @@ const $grafica = document.getElementById("grafica");
 const $limpiar = document.getElementById("limpiar");
 
 $limpiar.addEventListener("click", () => {
-    window.location.reload();
+  window.location.reload();
 });
 
 $formCalculadora.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  try{
+  try {
+    const formData = new FormData($formCalculadora);
+    const puntos = puntos_to_array(formData.get("puntos"));
 
-  const formData = new FormData($formCalculadora);
-  const puntos = puntos_to_array(formData.get("puntos"));
+    console.log(...puntos);
+    const funcion = calcular_Polinomio_Lagrange(puntos);
 
-  console.log(...puntos)
-  const funcion = calcular_Polinomio_Lagrange(puntos);
+    console.log(funcion);
 
-  console.log(funcion);
-
-  crear_grafica(funcion, puntos);
+    crear_grafica(funcion, puntos);
     $tituloGrafica.classList.remove("d-none");
-    $tituloGrafica.innerText = `Grafica de la funcion: ${math.simplify(funcion).toString()}`;
-  }catch (error) {
+    $tituloGrafica.innerText = `Grafica de la funcion: ${math
+      .simplify(funcion)
+      .toString()}`;
+  } catch (error) {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Algo salio mal, verifica los datos ingresados"
+      text: "Algo salio mal, verifica los datos ingresados",
     });
   } finally {
     $button.disabled = false;
   }
-  
 });
 
 const puntos_to_array = (puntos) => {
-    console.log(puntos)
+  console.log(puntos);
 
-    const coordenadas = puntos.split("), (");
+  const puntosLimpio = puntos.replace(/\s/g, "");
 
-    const sinParentesis = coordenadas.map(coordenada => {
-        return coordenada.replace("(", "").replace(")", "");
-    });
+  const puntosArray = puntosLimpio.split("),(");
 
-    const arregloCoordenadas = sinParentesis.map(coordenada => {
-        return coordenada.split(",").map(Number);
-    });
+  const arregloCoordenadas = puntosArray.map((coordenada) => {
+    return coordenada.replace("(", "").replace(")", "").split(",").map(Number);
+  });
 
-    return arregloCoordenadas;
+  return arregloCoordenadas;
 };
 
 const crear_grafica = (funcion, points) => {
