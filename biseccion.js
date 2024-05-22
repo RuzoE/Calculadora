@@ -82,7 +82,7 @@ const crear_grafica = (funcion, raiz) => {
 const metodo_biseccion = (func, xi, xf) => {
   let iteracion = 1;
 
-  const table = [["i", "Xi", "Xf", "Xr", "f(xi)","f(xf)", "f(xr)", "Ea"]];
+  const table = [["i", "Xi", "Xf", "Xr", "f(xi)","f(xf)", "f(xr)", "Et"]];
 
   let x;
   let xr;
